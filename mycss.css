@@ -1,0 +1,12 @@
+.container-fluid{
+  margin-top:10px;
+}
+.date{
+  font-weight: bold;
+}
+.temperature{
+  font-size:5em;
+}
+.temp{
+	padding-left: 45px;
+}
