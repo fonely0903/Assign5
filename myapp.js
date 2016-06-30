@@ -19,7 +19,7 @@ var skycons = new Skycons();
   skycons.set("today", Skycons.PARTLY_CLOUDY_NIGHT);
   
 /*
-Get value from Bootstrap dropdown menu
+Get value from Bootstrap dropdown menublr
 */
 $('button').click(function(){
   $('a').each(function(index, element){    
@@ -79,7 +79,7 @@ var getJSONInform = function(url){
     };
 
     $('.forecast-date > th:first-child').text(secDate);
-    $('.forecast-temperature > td:first-child').text(changeCelsius(secLowTemp) + "-" + changeCelsius(secHighTemp) + "˚C");
+    $('.forecast-temperature > td:first-child').text(changeCelsius(secLowTemp) + "-" + changeCelsius(secHighTemp) + "˚C" +" "+secWeather);
     $('.forecast-weather > td > #day1').text(secWeather);
     if($('#day1:contains("Cloudy")').length){
       skycons.set("day1", Skycons.CLOUDY);
@@ -94,7 +94,7 @@ var getJSONInform = function(url){
     };
 
     $('.forecast-date > th:nth-child(2)').text(thirdDate);
-    $('.forecast-temperature > td:nth-child(2)').text(changeCelsius(thirdLowTemp) + "-" + changeCelsius(thirdHighTemp) + "˚C");
+    $('.forecast-temperature > td:nth-child(2)').text(changeCelsius(thirdLowTemp) + "-" + changeCelsius(thirdHighTemp) + "˚C"+ " " + thirdWeather);
     $('.forecast-weather > td > #day2').text(thirdWeather);
     if($('#day2:contains("Cloudy")').length) {
       skycons.set("day2", Skycons.CLOUDY);
@@ -109,7 +109,7 @@ var getJSONInform = function(url){
     };
 
     $('.forecast-date > th:last-child').text(fourthDate);
-    $('.forecast-temperature > td:last-child').text(changeCelsius(fourthLowTemp) + "-" + changeCelsius(fourthHighTemp) + "˚C");
+    $('.forecast-temperature > td:last-child').text(changeCelsius(fourthLowTemp) + "-" + changeCelsius(fourthHighTemp) + "˚C" + " " + fourthWeather);
     $('.forecast-weather > td > #day3').text(fourthWeather);
     if($('#day3:contains("Cloudy")').length) {
       skycons.set("day3", Skycons.CLOUDY);
