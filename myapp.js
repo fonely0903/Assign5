@@ -64,69 +64,46 @@ var getJSONInform = function(url){
 
     $('.date').text(curDate);
     $('.weather').text(curWeather);
-    $('.temperature').text(changeCelsius(curTemp));
-    //draw skycons
-    if($('.weather:contains("Cloudy")').length){
-      skycons.set("today", Skycons.CLOUDY);
-    }else if ($('.weather:contains("Sunny")').length) {
-      skycons.set("today", Skycons.CLEAR_DAY);
-    }else if($('.weather:contains("Rain")').length || $('.weather:contains("Thunderstorms")').length || $('.weather:contains("Showers")').length){
-      skycons.set("today", Skycons.RAIN);
-    }else if($('.weather:contains("Fog")').length){
-      skycons.set("today", Skycons.FOG);
-    }else if($('.weather:contains("Wind")').length){
-      skycons.set("today", Skycons.WIND);
-    };
+    $('.temperature').text(changeCelsius(curTemp));    
+    skyconSet("today",curWeather);
 
     $('.forecast-date > th:first-child').text(secDate);
     $('.forecast-temperature > td:first-child').text(changeCelsius(secLowTemp) + "-" + changeCelsius(secHighTemp) + "˚C" +" "+secWeather);
-    $('.forecast-weather > td > #day1').text(secWeather);
-    if($('#day1:contains("Cloudy")').length){
-      skycons.set("day1", Skycons.CLOUDY);
-    }else if($('#day1:contains("Sunny")').length) {
-      skycons.set("day1", Skycons.CLEAR_DAY);
-    }else if($('#day1:contains("Rain")').length || $('#day1:contains("Thunderstorms")').length || $('#day1:contains("Showers")').length){
-        skycons.set("day1", Skycons.RAIN);
-    }else if($('#day1:contains("Fog")').length){
-        skycons.set("day1", Skycons.FOG);
-    }else if($('#day1:contains("Wind")').length){
-        skycons.set("day1", Skycons.WIND);
-    };
+    $('.forecast-weather > td > #day1').text(secWeather);    
+    skyconSet("day1",secWeather);
 
     $('.forecast-date > th:nth-child(2)').text(thirdDate);
     $('.forecast-temperature > td:nth-child(2)').text(changeCelsius(thirdLowTemp) + "-" + changeCelsius(thirdHighTemp) + "˚C"+ " " + thirdWeather);
     $('.forecast-weather > td > #day2').text(thirdWeather);
-    if($('#day2:contains("Cloudy")').length) {
-      skycons.set("day2", Skycons.CLOUDY);
-    }else if($('#day2:contains("Sunny")').length) {
-      skycons.set("day2",Skycons.CLEAR_DAY);
-    }else if($('#day2:contains("Rain")').length || $('#day2:contains("Thunderstorms")').length || $('#day2:contains("Showers")').length){
-      skycons.set("day2", Skycons.RAIN);
-    }else if($('#day2:contains("Fog")').length ){
-      skycons.set("day2", Skycons.FOG);
-    }else if($('#day2:contains("Wind")').length){
-      skycons.set("day2", Skycons.WIND);
-    };
+    skyconSet("day2",thirdWeather);
 
     $('.forecast-date > th:last-child').text(fourthDate);
     $('.forecast-temperature > td:last-child').text(changeCelsius(fourthLowTemp) + "-" + changeCelsius(fourthHighTemp) + "˚C" + " " + fourthWeather);
     $('.forecast-weather > td > #day3').text(fourthWeather);
-    if($('#day3:contains("Cloudy")').length) {
-      skycons.set("day3", Skycons.CLOUDY);
-    }else if($('#day3:contains("Sunny")').length) {
-      skycons.set("day2",Skycons.CLEAR_DAY);
-    }else if($('#day3:contains("Rain")').length || $('#day3:contains("Thunderstorms")').length || $('#day3:contains("Showers")').length){
-      skycons.set("day3", Skycons.RAIN);
-    }else if($('#day3:contains("Fog")').length ){
-      skycons.set("day3", Skycons.FOG);
-    }else if($('#day3:contains("Wind")').length){
-      skycons.set("day3", Skycons.WIND);
+    skyconSet("day3",fourthWeather);
+  });
+
+  var skyconSet = function(day,temp){
+  
+    if(temp == "Cloudy") {
+        skycons.set(day, Skycons.CLOUDY);
+    }else if(temp == "Sunny") {
+      skycons.set(day,Skycons.CLEAR_DAY);
+    }else if(temp == "Rain" || temp == "Thunderstorms" || temp == "Showers" || temp == "Scattered Thunderstorms"){
+      skycons.set(day, Skycons.RAIN);
+    }else if(temp == "Fog"){
+      skycons.set(day, Skycons.FOG);
+    }else if(temp == "Wind"){
+      skycons.set(day, Skycons.WIND);
     };
-});
+  };
 };
+
+getJSONInform(getCityJSON("taipei city"));
 
 var changeCelsius = function(temp){
   return Math.round(((temp - 32) * 5) / 9);
 };
 
-getJSONInform(getCityJSON("taipei city"));
+
+
