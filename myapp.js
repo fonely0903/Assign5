@@ -57,7 +57,7 @@ var getJSONInform = function(url){
       if(condition == "Cloudy" || condition == "Mostly Cloudy" || condition == "Partly Cloudy") {
         skycons.set(orderOfDay, Skycons.CLOUDY);
       }else if(condition == "Sunny" || condition == "Fair") {
-          skycons.set(orderOfDay,Skycons.CLEAR_day);
+          skycons.set(orderOfDay,Skycons.CLEAR_DAY);
       }else if(condition == "Rain" || condition =="Thunderstorms" || condition == "Showers" || condition == "Scattered Thunderstorms"){
           skycons.set(orderOfDay, Skycons.RAIN);
       }else if(condition == "Fog"){
