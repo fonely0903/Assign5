@@ -6,17 +6,12 @@ var skycons = new Skycons();
 "clear-day", "clear-night", "partly-cloudy-day",
             "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
             "fog"
+var date,highTemp,lowTemp,weather;
 
   // you can add a canvas by it's ID...
-  skycons.add("today", Skycons.PARTLY_CLOUDY_DAY);
-  skycons.add("day1", Skycons.CLEAR_DAY);
-  skycons.add("day2", Skycons.CLOUDY);
-  skycons.add("day3", Skycons.RAIN);
 
-  // start animation!
-  skycons.play();  
-  // want to change the icon? no problem:
-  skycons.set("today", Skycons.PARTLY_CLOUDY_NIGHT);
+  // start animation!*/
+  skycons.play();
   
 /*
 Get value from Bootstrap dropdown menublr
@@ -45,65 +40,56 @@ var getJSONInform = function(url){
   $.getJSON(url ,function(data){
     console.log (data) ; // 可以比較方便你找到你要的資料在這個物件的哪個位置
 
+    //-------------------把參數跟text.skycons set group起來,寫成一個function-----------------------//
     var curTemp = data.query.results.channel.item.condition.temp  ;
     var curDate = data.query.results.channel.item.forecast[0].date;
     var curWeather = data.query.results.channel.item.condition.text;
-    var secDate = data.query.results.channel.item.forecast[1].date;
-    var secHighTemp = data.query.results.channel.item.forecast[1].high;
-    var secLowTemp = data.query.results.channel.item.forecast[1].low;
-    var secWeather = data.query.results.channel.item.forecast[1].text;
-    var thirdDate = data.query.results.channel.item.forecast[2].date;
-    var thirdHighTemp = data.query.results.channel.item.forecast[2].high;
-    var thirdLowTemp = data.query.results.channel.item.forecast[2].low;
-    var thirdWeather = data.query.results.channel.item.forecast[2].text;
-    var fourthDate = data.query.results.channel.item.forecast[3].date;
-    var fourthHighTemp = data.query.results.channel.item.forecast[3].high;
-    var fourthLowTemp = data.query.results.channel.item.forecast[3].low;
-    var fourthWeather = data.query.results.channel.item.forecast[3].text;
-
-
-    $('.date').text(curDate);
-    $('.weather').text(curWeather);
-    $('.temperature').text(changeCelsius(curTemp));    
-    skyconSet("today",curWeather);
-
-    $('.forecast-date > th:first-child').text(secDate);
-    $('.forecast-temperature > td:first-child').text(changeCelsius(secLowTemp) + "-" + changeCelsius(secHighTemp) + "˚C" +" "+secWeather);
-    $('.forecast-weather > td > #day1').text(secWeather);    
-    skyconSet("day1",secWeather);
-
-    $('.forecast-date > th:nth-child(2)').text(thirdDate);
-    $('.forecast-temperature > td:nth-child(2)').text(changeCelsius(thirdLowTemp) + "-" + changeCelsius(thirdHighTemp) + "˚C"+ " " + thirdWeather);
-    $('.forecast-weather > td > #day2').text(thirdWeather);
-    skyconSet("day2",thirdWeather);
-
-    $('.forecast-date > th:last-child').text(fourthDate);
-    $('.forecast-temperature > td:last-child').text(changeCelsius(fourthLowTemp) + "-" + changeCelsius(fourthHighTemp) + "˚C" + " " + fourthWeather);
-    $('.forecast-weather > td > #day3').text(fourthWeather);
-    skyconSet("day3",fourthWeather);
-  });
-
-  var skyconSet = function(day,temp){
-  
-    if(temp == "Cloudy") {
-        skycons.set(day, Skycons.CLOUDY);
-    }else if(temp == "Sunny") {
-      skycons.set(day,Skycons.CLEAR_DAY);
-    }else if(temp == "Rain" || temp == "Thunderstorms" || temp == "Showers" || temp == "Scattered Thunderstorms"){
-      skycons.set(day, Skycons.RAIN);
-    }else if(temp == "Fog"){
-      skycons.set(day, Skycons.FOG);
-    }else if(temp == "Wind"){
-      skycons.set(day, Skycons.WIND);
+    
+    function todaySet(){  
+      $('.date').text(curDate);
+      $('.weather').text(curWeather);
+      $('.temperature').text(changeCelsius(curTemp));    
+      skyconSet("today",curWeather);
+      console.log("todayset done");
     };
-  };
+
+    function skyconSet(orderOfDay,condition){  
+      if(condition == "Cloudy" || condition == "Mostly Cloudy" || condition == "Partly Cloudy") {
+        skycons.set(orderOfDay, Skycons.CLOUDY);
+      }else if(condition == "Sunny" || condition == "Fair") {
+          skycons.set(orderOfDay,Skycons.CLEAR_DAY);
+      }else if(condition == "Rain" || condition =="Thunderstorms" || condition == "Showers" || condition == "Scattered Thunderstorms"){
+          skycons.set(orderOfDay, Skycons.RAIN);
+      }else if(condition == "Fog"){
+          skycons.set(orderOfDay, Skycons.FOG);
+      }else if(condition == "Windy"|| condition == "Breezy"){
+          skycons.set(orderOfDay, Skycons.WIND);
+      }; 
+    };
+
+    function forecastSet(i , orderOfDay){
+      date = data.query.results.channel.item.forecast[i].date;
+      highTemp = data.query.results.channel.item.forecast[i].high;
+      lowTemp = data.query.results.channel.item.forecast[i].low;
+      weather = data.query.results.channel.item.forecast[i].text;
+
+      $('.forecast-date > th:nth-child('+i+')').text(date);
+      $('.forecast-temperature > td:nth-child('+i+')').text(changeCelsius(lowTemp) + "-" + changeCelsius(highTemp) + "˚C" +" "+weather);
+      $("#"+orderOfDay).text(weather);
+      skyconSet(orderOfDay,weather);
+      console.log("forecastset"+i+" done");
+    };
+
+    todaySet();
+    forecastSet(1,"day1");
+    forecastSet(2,"day2");
+    forecastSet(3,"day3");
+  });
 };
+
 
 getJSONInform(getCityJSON("taipei city"));
 
 var changeCelsius = function(temp){
   return Math.round(((temp - 32) * 5) / 9);
 };
-
-
-
